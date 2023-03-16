@@ -1,0 +1,20 @@
+services:
+  standalone:
+    image: mysql
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - standalone:/var/lib/mysql
+      - ~/code/learn/sto/ms/benmarking/benchmark.cnf:/etc/mysql/conf.d/leader.cnf
+      - ~/code/learn/sto/ms/benmarking/benchmark.log:/logs/benchmark.log
+    cpus: 0.5
+    mem_limit: 500m
+    memswap_limit: 500m
+volumes:
+  standalone:
